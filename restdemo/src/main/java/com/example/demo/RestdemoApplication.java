@@ -23,6 +23,7 @@ public class RestdemoApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... arg0) throws Exception {
+		/*
 		repository.deleteAll();
 		double[] c ={2.2944968, 48.8581328};
 		double[] c2 = {2.2944968, 48.8581328};
@@ -39,8 +40,14 @@ public class RestdemoApplication implements CommandLineRunner{
 				"21b3822ea07ea5874acbc95a97dbb44fc1fb7ba7",fields,geometry );
 		paris.setName("paris");
 		repository.save(paris);
+		
+		
+		paris.setDatasetid("333333");
+		paris.setName("iledefrance");
+		repository.save(paris);
 		System.out.println(repository.findAll().get(0));
-	
+		
+	*/
 		
 	}
 }
