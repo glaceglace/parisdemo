@@ -13,25 +13,38 @@ JDK1.8,Maven3.5 et Tomcat 8.0
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
+La base de données est sur cloud.mongo.com, cependant vous avez besoin de Tomcat pour metre en place un serveur local.
+Vous avez besoin aussi de Maven pour compiler ou installer ce projet
 
-Say what the step will be
+
+Vous avez deux façon à metre en place ce projet
+
+1. Téléchargez et importez dans un IDE, eclipse est recommandé, lancez directement avec l'IDE 
+
+2. Téléchargez et extraire les fichers, utilsez la commande ci-dessous dans la répertoire ou le ficher pom.xml exsite
 
 ```
-Give the example
+mvn spring-boot:run
+```
+Vous réussissez si vous avez des réponse ci-dessous quand vous entrez localhost:8080 dans un broswer
+
+```
+{
+  "_links" : {
+    "cities" : {
+      "href" : "http://localhost:8080/cities{?page,size,sort}",
+      "templated" : true
+    },
+    "profile" : {
+      "href" : "http://localhost:8080/profile"
+    }
+  }
+}
 ```
 
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
 
-La base de données est sur cloud.mongo.com, cependant vous avez besoin de tomcat pour metre en place un serveur local.
 
 Dès que le projet est en marche. Vous avez deux façon à récupérer les résultats en json
 
