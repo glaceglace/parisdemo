@@ -2,6 +2,9 @@ package com.example.demo.model;
 
 import java.util.Arrays;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class GeoShape {
 	private String type;
 	private double[] coordinates;
@@ -11,8 +14,6 @@ public class GeoShape {
 		this.coordinates = coordinates;
 	}
 	public GeoShape() {
-		this.type = "";
-		this.coordinates = null;
 	}
 	public String getType() {
 		return type;
@@ -30,6 +31,7 @@ public class GeoShape {
 	public String toString() {
 		return "GeoShape [type=" + type + ", coordinates=" + Arrays.toString(coordinates) + "]";
 	}
+
 	
 
 }

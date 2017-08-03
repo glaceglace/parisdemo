@@ -2,6 +2,9 @@ package com.example.demo.model;
 
 import java.util.Arrays;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Geometry {
 	private String type;
 	private double[] coordinates;
@@ -10,10 +13,8 @@ public class Geometry {
 		this.type = type;
 		this.coordinates = coordinates;
 	}
+	
 	public Geometry() {
-		super();
-		this.type = "";
-		this.coordinates = null;
 	}
 	public String getType() {
 		return type;
@@ -27,10 +28,12 @@ public class Geometry {
 	public void setCoordinates(double[] coordinates) {
 		this.coordinates = coordinates;
 	}
+
 	@Override
 	public String toString() {
 		return "Geometry [type=" + type + ", coordinates=" + Arrays.toString(coordinates) + "]";
 	}
+
 	
 
 }

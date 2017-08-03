@@ -1,35 +1,33 @@
 package com.example.demo.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+import org.springframework.stereotype.Component;
 @Document(collection = "cities")
-public class City {
+public class ViewPoint {
+	@Autowired
+	Geometry geometry_bean;
+	@Autowired
+	Fields fields_bean;
 	@Id
 	private String datasetid;
-	private String name;
+	private String cityname;
 	private String recordid;
-	private CityFields fields;
+	private Fields fields;
 	private Geometry geometry;
 	
 	
-	public City(String datasetid, String recordid, CityFields fields, Geometry geometry) {
+	public ViewPoint(String datasetid, String recordid) {
 		this.datasetid = datasetid;
 		this.recordid = recordid;
-		this.fields = fields;
-		this.geometry = geometry;
+		this.fields = fields_bean;
+		this.geometry = geometry_bean;
 	}
-	public City() {
-		this.datasetid = "";
-		this.recordid = "";
-		this.fields = null;
-		this.geometry = null;
+	public ViewPoint() {
 	}
 	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
+		return cityname;
 	}
 	public String getDatasetid() {
 		return datasetid;
@@ -37,7 +35,7 @@ public class City {
 	public String getRecordid() {
 		return recordid;
 	}
-	public CityFields getFields() {
+	public Fields getFields() {
 		return fields;
 	}
 	public Geometry getGeometry() {
@@ -49,7 +47,13 @@ public class City {
 	public void setRecordid(String recordid) {
 		this.recordid = recordid;
 	}
-	public void setFields(CityFields fields) {
+	public String getCityname() {
+		return cityname;
+	}
+	public void setCityname(String cityname) {
+		this.cityname = cityname;
+	}
+	public void setFields(Fields fields) {
 		this.fields = fields;
 	}
 	public void setGeometry(Geometry geometry) {
@@ -57,8 +61,9 @@ public class City {
 	}
 	@Override
 	public String toString() {
-		return "City [datasetid=" + datasetid + ", name=" + name + ", recordid=" + recordid + ", fields=" + fields
-				+ ", geometry=" + geometry + "]";
+		return "ViewPoint [datasetid=" + datasetid + ", cityname=" + cityname + ", recordid=" + recordid + ", fields="
+				+ fields + ", geometry=" + geometry + "]";
 	}
+
 
 }

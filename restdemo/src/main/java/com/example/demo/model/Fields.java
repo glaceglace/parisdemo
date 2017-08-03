@@ -2,41 +2,45 @@ package com.example.demo.model;
 
 import java.util.Arrays;
 
-public class CityFields {
-	@Override
-	public String toString() {
-		return "CityFields [website=" + website + ", amenity=" + amenity + ", timestamp=" + timestamp + ", wheelchair="
-				+ wheelchair + ", note=" + note + ", user=" + user + ", otherTags=" + otherTags + ", geo_point_2d="
-				+ Arrays.toString(geo_point_2d) + ", geo_shape=" + geo_shape + "]";
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Fields {
+	@Autowired
+	GeoShape geoShape_bean;
+	
+	public int getId() {
+		return id;
 	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	@Autowired
+	OtherTags otherTags_bean;
+
+	@Id
+	private int id;
 	private String website, amenity, timestamp, wheelchair,
 					note, user;
 	private OtherTags otherTags;
 	private double[] geo_point_2d;
 	private GeoShape geo_shape;
-	public CityFields(String website, String amenity, String timestamp, String wheelchair, String note, String user,
-			OtherTags otherTags, double[] geo_point_2d, GeoShape geo_shape) {
-		super();
+	public Fields(String website, String amenity, String timestamp, String wheelchair, String note, String user,
+			OtherTags otherTags, double[] geo_point_2d) {
 		this.website = website;
 		this.amenity = amenity;
 		this.timestamp = timestamp;
 		this.wheelchair = wheelchair;
 		this.note = note;
 		this.user = user;
-		this.otherTags = otherTags;
+		this.otherTags = otherTags_bean;
 		this.geo_point_2d = geo_point_2d;
-		this.geo_shape = geo_shape;
+		this.geo_shape = geoShape_bean;
 	}
-	public CityFields() {
-		this.website = "";
-		this.amenity = "";
-		this.timestamp = "";
-		this.wheelchair = "";
-		this.note = "";
-		this.user = "";
-		this.otherTags = null;
-		this.geo_point_2d = null;
-		this.geo_shape = null;
+	public Fields() {
 	}
 	public String getWebsite() {
 		return website;
@@ -91,6 +95,14 @@ public class CityFields {
 	}
 	public void setGeo_shape(GeoShape geo_shape) {
 		this.geo_shape = geo_shape;
+	}
+
+	@Override
+	public String toString() {
+		return "Fields [id=" + id
+				+ ", website=" + website + ", amenity=" + amenity + ", timestamp=" + timestamp + ", wheelchair="
+				+ wheelchair + ", note=" + note + ", user=" + user + ", otherTags=" + otherTags + ", geo_point_2d="
+				+ Arrays.toString(geo_point_2d) + ", geo_shape=" + geo_shape + "]";
 	}
 
 }

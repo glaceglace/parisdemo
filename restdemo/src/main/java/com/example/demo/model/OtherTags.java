@@ -1,13 +1,9 @@
 package com.example.demo.model;
 
-public class OtherTags {
-	@Override
-	public String toString() {
-		return "OtherTags [musee=" + musee + ", name=" + name + ", level=" + level + ", source=" + source
-				+ ", addr_postcode=" + addr_postcode + ", addr_housename=" + addr_housename + ", addr_street="
-				+ addr_street + "]";
-	}
+import org.springframework.stereotype.Component;
 
+@Component
+public class OtherTags {
 	private String musee, name, level, source, 
 					addr_postcode, addr_housename,
 					addr_street;
@@ -23,15 +19,13 @@ public class OtherTags {
 		this.addr_housename = addr_housename;
 		this.addr_street = addr_street;
 	}
+	@Override
+	public String toString() {
+		return "OtherTags [musee=" + musee + ", name=" + name + ", level=" + level + ", source=" + source
+				+ ", addr_postcode=" + addr_postcode + ", addr_housename=" + addr_housename + ", addr_street="
+				+ addr_street + "]";
+	}
 	public OtherTags() {
-		super();
-		this.musee = "";
-		this.name = "";
-		this.level = "";
-		this.source = "";
-		this.addr_postcode = "";
-		this.addr_housename = "";
-		this.addr_street = "";
 	}
 
 	public String getMusee() {
