@@ -5,27 +5,36 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.model.Fields;
 import com.example.demo.model.GeoShape;
 import com.example.demo.model.Geometry;
 import com.example.demo.model.OtherTags;
+import com.example.demo.model.Result;
 import com.example.demo.model.ViewPoint;
 import com.example.demo.service.ViewPointRepository;
+import com.example.demo.utils.ResultUtil;
 
 import ch.qos.logback.core.Context;
+import groovy.lang.MetaClassImpl.Index;
 import scala.annotation.meta.field;
 
-@RestController
+@RestController("/api")
 public class ViewPointController {
+	private final static Logger logger = LoggerFactory.getLogger(ViewPointController.class);
+	
 	@Autowired
 	ViewPointRepository repository;
 	@Autowired
@@ -38,15 +47,26 @@ public class ViewPointController {
 	 * @param name
 	 * @return
 	 */
-	@GetMapping(value = "/{name}")
-	public List<ViewPoint> getParis(@PathVariable("name") String name){
-		return repository.findByCityname(name);
-	}
 	@GetMapping(value = "/city")
 	public List<ViewPoint> getCity(@RequestParam(value = "name", required = false, defaultValue = "paris") String name){
 		return repository.findByCityname(name);
 	}
-	
+	/**
+	 * Get un viewpoint en precisant le nom de la ville
+	 * et le nom de viewpoint
+	 * @param cityname
+	 * @param viewpointname
+	 * @return
+	 */
+	@GetMapping("/cityandvp")
+	public List<ViewPoint> getViewPointByCityAndViewName(
+				@RequestParam(value = "cityname")
+				String cityname, 
+				@RequestParam(value = "viewpointname")
+				String viewpointname){
+		return repository.findByCitynameAndFieldsOtherTagsName(
+							cityname,viewpointname);
+	}
 	/**
 	 * Ajouter un viewpoint
 	 * @param cityname
@@ -57,15 +77,14 @@ public class ViewPointController {
 	 * @return
 	 */
 	@PostMapping(value= "/{cityname}")
-	public Object postViewPoint(@PathVariable("cityname") String cityname, 
+	public Result<ViewPoint> postViewPoint(@PathVariable("cityname") String cityname, 
 			@RequestParam(value = "name") String name, ViewPoint vPoint, OtherTags otherTags, Fields fields){
 		System.out.println(name);
 		otherTags.setName(name);
 		fields.setOtherTags(otherTags);
 		vPoint.setFields(fields);
-		repository.save(vPoint);
 		System.out.println(vPoint);
-		return  vPoint;
+		return  ResultUtil.success(repository.save(vPoint));
 	}
 	@PostMapping(value = "/dummy/{cityname}")
 	public Object postDummyViewPoint(@PathVariable("cityname") String cityname,
