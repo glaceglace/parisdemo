@@ -1,5 +1,8 @@
 package com.example.demo.model;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,11 +15,11 @@ public class ViewPoint {
 	Fields fields_bean;
 	@Id
 	private String datasetid;
+	@NotEmpty
 	private String cityname;
 	private String recordid;
 	private Fields fields;
 	private Geometry geometry;
-	
 	
 	public ViewPoint(String datasetid, String recordid) {
 		this.datasetid = datasetid;

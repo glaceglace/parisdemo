@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Personal Profile Form Widget Flat Responsive Widget Template :: w3layouts</title>
+	<!-- for-mobile-apps -->
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="Personal Profile Form Widget Responsive, Login form web template, Sign up Web Templates, Flat Web Templates, Login signup Responsive web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"
+	/>
+	<!-- //for-mobile-apps -->
+	<link href='//fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css' />
+	<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css' />
+	<link rel="stylesheet" th:href="@{/css/j-forms.css}" />
+	<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" media="all" />
+</head>
+
+<body>
+
+
+
+	<div class="content">
+		<h1>Personal Profile form widget</h1>
+		<div class="main w3l">
+			<div class="im-g">
+				<img th:src="@{/images/img1.jpg}" alt="" />
+			</div>
+			<form action="#" th:action="@{/api/addnew}" th:object="${viewPoint}" class="contact-forms wthree" method="post">
+				<!-- end /.header-->
+
+				<!-- start name -->
+				<div class="first-line agileits">
+					<div class="span6 main-row">
+						<div class="input">
+
+							<input type="text" id="city_name" name="city_name" placeholder="City Name" th:field="*{cityname}" >
+						</div>
+					</div>
+				</div>
+				<div class="footer">
+					<button type="submit" class="primary-btn">Send</button>
+					<button type="reset" class="secondary-btn">Reset</button>
+				</div>
+
+				<div th:object="${viewPoint.fields}">
+					<div class="span6 main-row">
+						<div class="input">
+
+							<input type="text" id="field_website" name="field_website" th:field="*{website}" placeholder="Field: Website"  />
+
+						</div>
+					</div>
+
+					<!-- end name -->
+
+					<!-- start email phone -->
+					<div class="first-line agileits">
+						<div class="span6 main-row">
+							<div class="input">
+
+								<input type="text" placeholder="Field: Amenity" id="field_amenity" th:field="*{amenity}" name="field_amenity"  />
+							</div>
+						</div>
+						<div class="span6 main-row">
+							<div class="input">
+
+								<input type="date" placeholder="Field:Timestamp" id="field_timestamp" th:field="*{timestamp}" name="field_timestamp"  />
+
+							</div>
+						</div>
+					</div>
+					<div class="main-row">
+						<input type="text" placeholder="Field:Wheelchair" id="field_wheelchair" th:field="*{wheelchair}" name="field_wheelchair"  />
+					</div>
+
+					<!-- start city post code -->
+					<div class="first-line agileits">
+						<div class="span8 main-row">
+							<div class="input">
+
+								<input type="text" id="field_note" placeholder="Field: Note" th:field="*{note}" name="field_note" >
+							</div>
+						</div>
+
+					</div>
+					<!-- end city post code -->
+
+					<!-- start address -->
+					<div class="main-row">
+						<div class="input">
+
+							<input type="text" id="field_user" placeholder="Field: User" th:field="*{user}" name="user" >
+						</div>
+					</div>
+				</div>
+
+				<!-- end address -->
+
+				<div th:object="${viewPoint.fields.otherTags}" class="contact-forms wthree">
+					<!-- start address -->
+					<div class="main-row">
+						<div class="input">
+
+							<input type="text" id="ot_musee" placeholder="OtherTags: Musee" th:field="*{musee}" name="ot_musee" >
+						</div>
+					</div>
+					<!-- end address -->
+					<!-- start address -->
+					<div class="main-row">
+						<div class="input">
+
+							<input type="text" id="ot_name" th:field="*{name}" placeholder="OtherTags: Name" name="ot_name" >
+						</div>
+					</div>
+					<!-- end address -->
+					<!-- start address -->
+					<div class="main-row">
+						<div class="input">
+
+							<input type="text" id="ot_level" th:field="*{level}" placeholder="OtherTags: Level" name="ot_lvl" >
+						</div>
+					</div>
+					<!-- end address -->
+					<!-- start address -->
+					<div class="main-row">
+						<div class="input">
+
+							<input type="text" id="ot_source" th:field="*{source}" placeholder="OtherTags: Source" name="ot_source" >
+						</div>
+					</div>
+					<!-- end address -->
+					<!-- start address -->
+					<div class="main-row">
+						<div class="input">
+
+							<input type="text" id="ot_postcode" th:field="*{addr_postcode}" placeholder="OtherTags: Post Code" name="ot_postcode" >
+						</div>
+					</div>
+					<!-- end address -->
+					<!-- start address -->
+					<div class="main-row">
+						<div class="input">
+
+							<input type="text" id="ot_housename" th:field="*{addr_housename}" placeholder="OtherTags: House Name" name="ot_housename" >
+						</div>
+					</div>
+					<!-- end address -->
+					<!-- start address -->
+					<div class="main-row">
+						<div class="input">
+
+							<input type="text" id="ot_street" th:field="*{addr_street}" placeholder="OtherTags: Street" name="ot_street" >
+						</div>
+					</div>
+				</div>
+				<!--
+				<div class="first-line agileits" th:arrays="*{geo_point_2d}">
+					<div class="span6 main-row">
+						<div class="input">
+
+
+							<input type="text" th:field="*{geo_point_2d.row[0]}" id="geo2d_lat" name="geo2d_lat" placeholder="Geopoint 2D Lat" >
+						</div>
+					</div>
+					<div class="span6 main-row">
+						<div class="input">
+
+							<input type="text" id="geo2d_lon" name="geo2d_lon" th:field="*{geo_point_2d[1]}" placeholder="Geopoint 2D Lat"  />
+
+						</div>
+					</div>
+				</div>
+				-->
+			</form>
+			<!--
+			<form action="#" th:action="@{/api}" th:object="${newGs}" class="contact-forms wthree">
+				<div class="first-line agileits">
+					<div class="span6 main-row">
+						<div class="input">
+
+							<input type="text" id="geoshape_lat" name="geoshape_lat" placeholder="Geoshape Lat" >
+						</div>
+					</div>
+					<div class="span6 main-row">
+						<div class="input">
+
+							<input type="text" id="geoshape_lon" name="geoshape_lon" placeholder="Geoshape Lat"  />
+
+						</div>
+					</div>
+				</div>
+			</form>
+
+			<form action="#" th:action="@{/api}" th:object="${newGm}" class="contact-forms wthree">
+				<div class="first-line agileits">
+					<div class="span6 main-row">
+						<div class="input">
+
+							<input type="text" id="geometry_lat" name="geometry_lat" placeholder="Geometry Lat" >
+						</div>
+					</div>
+					<div class="span6 main-row">
+						<div class="input">
+
+							<input type="text" id="geometry_lon" name="geometry_lon" placeholder="Geometry Lat"  />
+
+						</div>
+					</div>
+				</div>
+
+
+
+
+			</form>
+-->
+
+
+		</div>
+		<p class="copy_rights">&copy; 2016 Personal Profile Form Widget. All Rights Reserved | Design by <a href="http://w3layouts.com/"> W3layouts</a></p>
+	</div>
+
+</body>
+
+</html>

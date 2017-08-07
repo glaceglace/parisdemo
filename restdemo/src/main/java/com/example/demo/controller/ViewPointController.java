@@ -4,12 +4,17 @@ package com.example.demo.controller;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.print.attribute.standard.MediaSize.Other;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,16 +30,19 @@ import com.example.demo.model.OtherTags;
 import com.example.demo.model.Result;
 import com.example.demo.model.ViewPoint;
 import com.example.demo.service.ViewPointRepository;
+import com.example.demo.service.ViewPointService;
 import com.example.demo.utils.ResultUtil;
 
 import ch.qos.logback.core.Context;
 import groovy.lang.MetaClassImpl.Index;
 import scala.annotation.meta.field;
 
-@RestController("/api")
+@RestController
+@RequestMapping("/api")
 public class ViewPointController {
 	private final static Logger logger = LoggerFactory.getLogger(ViewPointController.class);
-	
+	@Autowired
+	ViewPointService service;
 	@Autowired
 	ViewPointRepository repository;
 	@Autowired
@@ -76,16 +84,35 @@ public class ViewPointController {
 	 * @param fields
 	 * @return
 	 */
-	@PostMapping(value= "/{cityname}")
-	public Result<ViewPoint> postViewPoint(@PathVariable("cityname") String cityname, 
-			@RequestParam(value = "name") String name, ViewPoint vPoint, OtherTags otherTags, Fields fields){
-		System.out.println(name);
-		otherTags.setName(name);
-		fields.setOtherTags(otherTags);
-		vPoint.setFields(fields);
-		System.out.println(vPoint);
-		return  ResultUtil.success(repository.save(vPoint));
+	@PostMapping(value= "/addnew")
+	public Object postViewPoint(@ModelAttribute OtherTags otherTags, @ModelAttribute Fields fields, @ModelAttribute @Valid ViewPoint viewPoint, BindingResult bindingResult){
+		if(bindingResult.hasErrors()){
+			return ResultUtil.error(-1, bindingResult.getFieldError().getDefaultMessage(),null);
+		}
+		
+		return repository.save(viewPoint);
+		
 	}
+	
+	/**
+	 * test @transactional
+	 */
+	@PostMapping("/inserttwo")
+	public void insertTwoVp(){
+		service.insertTwoDummy();
+		
+	}
+	/**
+	 * add a new dummy
+	 * @param cityname
+	 * @param viewname
+	 * @param vPoint
+	 * @param otherTags
+	 * @param fields
+	 * @param geometry
+	 * @param geoShape
+	 * @return
+	 */
 	@PostMapping(value = "/dummy/{cityname}")
 	public Object postDummyViewPoint(@PathVariable("cityname") String cityname,
 										@RequestParam(value = "viewname") String viewname,
