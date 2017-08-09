@@ -28,11 +28,11 @@ public class ViewPointService {
 		
 	}
 	
-	public ResponseEntity<List<ViewPoint>> checkEmpty(List<ViewPoint> list) throws Exception{
+	public ResponseEntity<List<ViewPoint>> checkEmpty(List<ViewPoint> list) throws RuntimeException{
 		if(!list.isEmpty()){
 			return  ResponseEntity.ok(list);
 			}else {
-				throw new Exception();
+				throw new RuntimeException();
 			}
 	}
 

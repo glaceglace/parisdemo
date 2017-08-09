@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 public class ExceptionHandle {
 	
-	@ExceptionHandler(value=Exception.class)
+	@ExceptionHandler(value=RuntimeException.class)
 	@ResponseBody
-	public ResponseEntity handle(Exception e){
+	public ResponseEntity handle(RuntimeException e){
 		return ResponseEntity.noContent().build();
 	}
 

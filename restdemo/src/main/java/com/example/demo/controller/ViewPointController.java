@@ -63,7 +63,7 @@ public class ViewPointController {
 	public ResponseEntity<List<ViewPoint>> getCity(@RequestParam(value = "name", 
 																required = false, 
 																defaultValue = "paris") String name)
-																throws Exception{
+																throws RuntimeException{
 		List<ViewPoint> result = repository.findByCityname(name);
 		return service.checkEmpty(result);
 	}
@@ -79,7 +79,7 @@ public class ViewPointController {
 				@RequestParam(value = "cityname")
 				String cityname, 
 				@RequestParam(value = "viewpointname")
-				String viewpointname)throws Exception{
+				String viewpointname)throws RuntimeException{
 		List<ViewPoint> result = repository.findByCitynameAndFieldsOtherTagsName(
 				cityname,viewpointname);
 		return service.checkEmpty(result);
@@ -164,7 +164,7 @@ public class ViewPointController {
 	 */
 	@PutMapping
 	public Object putViewPoint(@RequestParam(value = "id") String id,
-								@RequestParam(value = "postcode") String postcode)throws Exception{
+								@RequestParam(value = "postcode") String postcode)throws RuntimeException{
 		List<ViewPoint> result = repository.findByDatasetid(id);
 		service.checkEmpty(result);
 		result.get(0).getFields().getOtherTags().setAddr_postcode(postcode);
@@ -177,7 +177,7 @@ public class ViewPointController {
 	 * @param id
 	 */
 	@DeleteMapping
-	public Object deleteViewPoint(@RequestParam(value = "id") String id)throws Exception{
+	public Object deleteViewPoint(@RequestParam(value = "id") String id)throws RuntimeException{
 		List<ViewPoint> result = repository.findByDatasetid(id);
 		service.checkEmpty(result);
 		repository.delete(id);
