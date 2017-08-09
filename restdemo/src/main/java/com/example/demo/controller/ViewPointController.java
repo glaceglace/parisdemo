@@ -5,11 +5,15 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.print.attribute.standard.MediaSize.Other;
+import javax.swing.text.View;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -56,8 +60,13 @@ public class ViewPointController {
 	 * @return
 	 */
 	@GetMapping(value = "/city")
-	public List<ViewPoint> getCity(@RequestParam(value = "name", required = false, defaultValue = "paris") String name){
-		return repository.findByCityname(name);
+	public ResponseEntity<List<ViewPoint>> getCity(@RequestParam(value = "name", required = false, defaultValue = "paris") String name){
+		List<ViewPoint> result = repository.findByCityname(name);
+		if (!result.isEmpty()){
+		return ResponseEntity.ok(result);
+		}else{
+			return ResponseEntity.noContent().build();
+		}
 	}
 	/**
 	 * Get un viewpoint en precisant le nom de la ville
@@ -67,13 +76,19 @@ public class ViewPointController {
 	 * @return
 	 */
 	@GetMapping("/cityandvp")
-	public List<ViewPoint> getViewPointByCityAndViewName(
+	public ResponseEntity<List<ViewPoint>> getViewPointByCityAndViewName(
 				@RequestParam(value = "cityname")
 				String cityname, 
 				@RequestParam(value = "viewpointname")
 				String viewpointname){
-		return repository.findByCitynameAndFieldsOtherTagsName(
-							cityname,viewpointname);
+		List<ViewPoint> result = repository.findByCitynameAndFieldsOtherTagsName(
+				cityname,viewpointname);
+		if(!result.isEmpty()){
+		return  ResponseEntity.ok(repository.findByCitynameAndFieldsOtherTagsName(
+							cityname,viewpointname));
+		}else {
+			return ResponseEntity.noContent().build();
+		}
 	}
 	/**
 	 * Ajouter un viewpoint
@@ -87,10 +102,10 @@ public class ViewPointController {
 	@PostMapping(value= "/addnew")
 	public Object postViewPoint(@ModelAttribute OtherTags otherTags, @ModelAttribute Fields fields, @ModelAttribute @Valid ViewPoint viewPoint, BindingResult bindingResult){
 		if(bindingResult.hasErrors()){
-			return ResultUtil.error(-1, bindingResult.getFieldError().getDefaultMessage(),null);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getFieldError().getField()+ ": " + bindingResult.getFieldError().getDefaultMessage());
 		}
 		
-		return repository.save(viewPoint);
+		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(viewPoint));
 		
 	}
 	
@@ -143,9 +158,8 @@ public class ViewPointController {
 		vPoint.setCityname(cityname);
 		vPoint.setFields(fields);
 		vPoint.setGeometry(geometry);		
-		repository.save(vPoint);
-		System.out.println(repository.findAll().get(0));
-		return vPoint;
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(vPoint);
 	}
 	
 	/**
@@ -158,9 +172,12 @@ public class ViewPointController {
 	public Object putViewPoint(@RequestParam(value = "id") String id,
 								@RequestParam(value = "postcode") String postcode){
 		ViewPoint vPoint = repository.findByDatasetid(id);
+		if (vPoint == null) {
+			return ResponseEntity.noContent().build();
+		}
 		vPoint.getFields().getOtherTags().setAddr_postcode(postcode);
-		repository.save(vPoint);
-		return vPoint;
+		
+		return ResponseEntity.ok().body(repository.save(vPoint));
 	}
 	
 	/**
@@ -168,8 +185,13 @@ public class ViewPointController {
 	 * @param id
 	 */
 	@DeleteMapping
-	public void deleteViewPoint(@RequestParam(value = "id") String id){
+	public Object deleteViewPoint(@RequestParam(value = "id") String id){
+		ViewPoint vPoint = repository.findByDatasetid(id);
+		if (vPoint == null) {
+			return ResponseEntity.noContent().build();
+		}
 		repository.delete(id);
+		return ResponseEntity.ok().body("ViewPoint id " + vPoint.getDatasetid() + " deletion with success");
 	}
 	
 }
