@@ -12,7 +12,7 @@ import com.example.demo.model.ViewPoint;
 
 public interface ViewPointRepository extends MongoRepository<ViewPoint, String> {
 	List<ViewPoint> findByCityname(String name);
-	ViewPoint findByDatasetid(String id);
+	List<ViewPoint> findByDatasetid(String id);
 	@Query(value = "{'cityname' : ?0, 'fields.otherTags.name' : ?1}")
 	List<ViewPoint> findByCitynameAndFieldsOtherTagsName(String cityname, String name);
 }

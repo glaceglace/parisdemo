@@ -60,13 +60,12 @@ public class ViewPointController {
 	 * @return
 	 */
 	@GetMapping(value = "/city")
-	public ResponseEntity<List<ViewPoint>> getCity(@RequestParam(value = "name", required = false, defaultValue = "paris") String name){
+	public ResponseEntity<List<ViewPoint>> getCity(@RequestParam(value = "name", 
+																required = false, 
+																defaultValue = "paris") String name)
+																throws Exception{
 		List<ViewPoint> result = repository.findByCityname(name);
-		if (!result.isEmpty()){
-		return ResponseEntity.ok(result);
-		}else{
-			return ResponseEntity.noContent().build();
-		}
+		return service.checkEmpty(result);
 	}
 	/**
 	 * Get un viewpoint en precisant le nom de la ville
@@ -80,15 +79,10 @@ public class ViewPointController {
 				@RequestParam(value = "cityname")
 				String cityname, 
 				@RequestParam(value = "viewpointname")
-				String viewpointname){
+				String viewpointname)throws Exception{
 		List<ViewPoint> result = repository.findByCitynameAndFieldsOtherTagsName(
 				cityname,viewpointname);
-		if(!result.isEmpty()){
-		return  ResponseEntity.ok(repository.findByCitynameAndFieldsOtherTagsName(
-							cityname,viewpointname));
-		}else {
-			return ResponseEntity.noContent().build();
-		}
+		return service.checkEmpty(result);
 	}
 	/**
 	 * Ajouter un viewpoint
@@ -170,14 +164,12 @@ public class ViewPointController {
 	 */
 	@PutMapping
 	public Object putViewPoint(@RequestParam(value = "id") String id,
-								@RequestParam(value = "postcode") String postcode){
-		ViewPoint vPoint = repository.findByDatasetid(id);
-		if (vPoint == null) {
-			return ResponseEntity.noContent().build();
-		}
-		vPoint.getFields().getOtherTags().setAddr_postcode(postcode);
+								@RequestParam(value = "postcode") String postcode)throws Exception{
+		List<ViewPoint> result = repository.findByDatasetid(id);
+		service.checkEmpty(result);
+		result.get(0).getFields().getOtherTags().setAddr_postcode(postcode);
 		
-		return ResponseEntity.ok().body(repository.save(vPoint));
+		return ResponseEntity.ok().body(repository.save(result));
 	}
 	
 	/**
@@ -185,13 +177,13 @@ public class ViewPointController {
 	 * @param id
 	 */
 	@DeleteMapping
-	public Object deleteViewPoint(@RequestParam(value = "id") String id){
-		ViewPoint vPoint = repository.findByDatasetid(id);
-		if (vPoint == null) {
-			return ResponseEntity.noContent().build();
-		}
+	public Object deleteViewPoint(@RequestParam(value = "id") String id)throws Exception{
+		List<ViewPoint> result = repository.findByDatasetid(id);
+		service.checkEmpty(result);
 		repository.delete(id);
-		return ResponseEntity.ok().body("ViewPoint id " + vPoint.getDatasetid() + " deletion with success");
+		return ResponseEntity.ok().body("ViewPoint id " + 
+				result.get(0).getDatasetid() + 
+				" deletion with success");
 	}
 	
 }

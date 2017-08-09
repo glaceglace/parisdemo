@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
-import javax.validation.Valid;
+import java.util.List;
 
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,14 @@ public class ViewPointService {
 		}
 		repository.save(v2);
 		
+	}
+	
+	public ResponseEntity<List<ViewPoint>> checkEmpty(List<ViewPoint> list) throws Exception{
+		if(!list.isEmpty()){
+			return  ResponseEntity.ok(list);
+			}else {
+				throw new Exception();
+			}
 	}
 
 }
