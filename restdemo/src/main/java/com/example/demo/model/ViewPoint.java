@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
+
+import io.swagger.annotations.ApiModelProperty;
 @Document(collection = "cities")
 public class ViewPoint {
 	@Autowired
@@ -14,11 +16,15 @@ public class ViewPoint {
 	@Autowired
 	Fields fields_bean;
 	@Id
+	@ApiModelProperty(notes = "The database generated product ID")
 	private String datasetid;
 	@NotEmpty
+	@ApiModelProperty(notes = "The city name of the view point", required=true)
 	private String cityname;
 	private String recordid;
+	@ApiModelProperty(notes = "The view point's field")
 	private Fields fields;
+	@ApiModelProperty(notes = "The view point's coordinates")
 	private Geometry geometry;
 	
 	public ViewPoint(String datasetid, String recordid) {

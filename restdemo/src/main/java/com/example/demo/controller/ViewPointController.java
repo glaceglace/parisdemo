@@ -39,10 +39,21 @@ import com.example.demo.utils.ResultUtil;
 
 import ch.qos.logback.core.Context;
 import groovy.lang.MetaClassImpl.Index;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import scala.annotation.meta.field;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping(value="/api", produces="application/json")
+@Api(value="View point", description="Operations for view point")
+@ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successful"),
+        @ApiResponse(code = 204, message = "Successfully retrieved but no content"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+})
 public class ViewPointController {
 	private final static Logger logger = LoggerFactory.getLogger(ViewPointController.class);
 	@Autowired
@@ -59,6 +70,7 @@ public class ViewPointController {
 	 * @param name
 	 * @return
 	 */
+	@ApiOperation(value="Acquire a list of view point")
 	@GetMapping(value = "/city")
 	public ResponseEntity<List<ViewPoint>> getCity(@RequestParam(value = "name", 
 																required = false, 
@@ -74,6 +86,7 @@ public class ViewPointController {
 	 * @param viewpointname
 	 * @return
 	 */
+	@ApiOperation(value="Acquire a list of view point according to the city name and the view name")
 	@GetMapping("/cityandvp")
 	public ResponseEntity<List<ViewPoint>> getViewPointByCityAndViewName(
 				@RequestParam(value = "cityname")
@@ -93,6 +106,7 @@ public class ViewPointController {
 	 * @param fields
 	 * @return
 	 */
+	@ApiOperation(value="Add a new view point")
 	@PostMapping(value= "/addnew")
 	public Object postViewPoint(@ModelAttribute OtherTags otherTags, @ModelAttribute Fields fields, @ModelAttribute @Valid ViewPoint viewPoint, BindingResult bindingResult){
 		if(bindingResult.hasErrors()){
@@ -106,6 +120,7 @@ public class ViewPointController {
 	/**
 	 * test @transactional
 	 */
+	@ApiOperation(value="For @Transactional test(incomplete)")
 	@PostMapping("/inserttwo")
 	public void insertTwoVp(){
 		service.insertTwoDummy();
@@ -122,6 +137,7 @@ public class ViewPointController {
 	 * @param geoShape
 	 * @return
 	 */
+	@ApiOperation(value="Add a new dummy view point",response=ResponseEntity.class)
 	@PostMapping(value = "/dummy/{cityname}")
 	public Object postDummyViewPoint(@PathVariable("cityname") String cityname,
 										@RequestParam(value = "viewname") String viewname,
@@ -162,6 +178,7 @@ public class ViewPointController {
 	 * @param postcode
 	 * @return
 	 */
+	@ApiOperation(value="Modify an existed view point" ,response=ResponseEntity.class)
 	@PutMapping
 	public Object putViewPoint(@RequestParam(value = "id") String id,
 								@RequestParam(value = "postcode") String postcode)throws RuntimeException{
@@ -176,6 +193,7 @@ public class ViewPointController {
 	 * supprimer un viewpoint par son ID
 	 * @param id
 	 */
+	@ApiOperation(value="Delete a view point",response=ResponseEntity.class)
 	@DeleteMapping
 	public Object deleteViewPoint(@RequestParam(value = "id") String id)throws RuntimeException{
 		List<ViewPoint> result = repository.findByDatasetid(id);
